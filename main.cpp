@@ -1,19 +1,20 @@
 #include <iostream>
+#include <iomanip>
+#include <vector>
 #include "CPU/cpu.h"
-#include <bitset>
 using namespace std;
 
 int main() {
 
-    Registers registers;
-    CPU cpu;
+    vector<reg> memory(2);
+    memory[0] = 0xA9;
+    memory[1] = 0xFF;
+    //LDA 0xFF
 
-    registers.A = 0x19; // 00011001
-    reg mem = 0x23; // 00100011
+    CPU cpu = CPU(&memory);
 
-    //00011001 & 00100011 should = 00000001
-    cpu.op_and(&registers);
+    cpu.cycle();
 
-    cout << "Result: " << (bitset<8>)registers.A << endl;
+    cout << "Result: " << setbase(16) << "0x" << (int) cpu.rg.A << endl;
     return 0;
 }

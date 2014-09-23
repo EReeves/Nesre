@@ -3,9 +3,8 @@
 
 typedef unsigned char reg; //All but one of the registers are 8bit.
 typedef unsigned short reg_pc; //16 bit for the PC register.
+typedef unsigned short instruction;
 typedef bool bit;
-
-
 
 //The P register holds processor flags
 struct Flags {
@@ -19,7 +18,7 @@ struct Flags {
             S; //Sign flag, set if result is positive.=
 };
 
-static enum Address_Mode
+enum Address_Mode
 {
     IMMEDIATE,
     ABSOLUTE,
@@ -33,7 +32,6 @@ static enum Address_Mode
     POST_INDIRECT,
     RELATIVE,
     INSTRUCTION, //Special mode that doesn't exist on the CPU, used when reading the first part of an instruction.
-    POST_INSTRUCTION, //Here is where we set the address mode and then execute the operation.
     NONE //Likewise, default state.
 };
 
@@ -57,12 +55,4 @@ public:
     Flags P;
 
     reg_pc PC;
-
-    //
-
-    //Emulation Registers. Used to simplify some processes.
-    Address_Mode AMD = NONE; //Address mode.
-    reg M = 0x00; //Operand value.
-    reg_pc MA = 0x0000; //16 bit address for absolute and zero page address mode.
-
 };
